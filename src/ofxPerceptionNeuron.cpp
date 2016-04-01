@@ -79,7 +79,6 @@ namespace ofxPerceptionNeuron
         static void frameDataReceived(void * customObject, SOCKET_REF sockRef, BvhDataHeader * header, float * data)
         {
             Impl* self = reinterpret_cast<Impl*>(customObject);
-            cerr << header->AvatarIndex << ", " << header->AvatarName << ", " << header->DataCount << "," << header->WithDisp << "," << header->WithReference << "," << ofGetElapsedTimeMillis() << endl;
             
             self->data_lock.lock();
             SwappableBvhData& d = self->data[header->AvatarIndex];
