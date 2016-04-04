@@ -199,6 +199,7 @@ namespace ofxPerceptionNeuron
             auto & s = skeletons[i];
             skeletons_map[impl->data[i].front.avater_name] = &s;
             if (s.joints.size() != bvh->getNumJoints()) {
+                s.name = impl->data[i].front.avater_name;
                 s.joints.resize(bvh->getNumJoints());
                 for (int j=0; j<s.joints.size(); ++j) {
                     auto* bvhj = bvh->getJoint(j);
