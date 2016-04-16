@@ -56,7 +56,8 @@ namespace ofxPerceptionNeuron
         };
         
         map<uint32_t, SwappableBvhData> data;
-        bool newdata = false;
+        bool newframe = false;
+        uint64_t lastframe = 0;
     public:
         Impl()
         {
@@ -124,12 +125,18 @@ namespace ofxPerceptionNeuron
         
         void update()
         {
+            uint64_t frame = ofGetFrameNum();
+            if (frame != lastframe) {
+                newframe = false;
+                lastframe = frame;
+            }
             data_lock.lock();
             for (auto& p : data) {
                 if (p.second.newdata) {
                     p.second.swap();
                     p.second.update();
                     p.second.newdata = false;
+                    newframe = true;
                 }
             }
             data_lock.unlock();
@@ -140,6 +147,10 @@ namespace ofxPerceptionNeuron
             for (auto& p : data) {
                 p.second.draw();
             }
+        }
+        
+        bool isFrameNew() const {
+            return newframe;
         }
     };
     
@@ -184,6 +195,11 @@ namespace ofxPerceptionNeuron
     bool DataReader::isConnected() const
     {
         return impl->isConnected();
+    }
+    
+    bool DataReader::isFrameNew() const
+    {
+        return impl->isFrameNew();
     }
     
     void DataReader::update()

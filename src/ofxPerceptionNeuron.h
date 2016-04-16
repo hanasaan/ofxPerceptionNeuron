@@ -53,6 +53,7 @@ namespace ofxPerceptionNeuron
         void disconnect();
         void update();
         bool isConnected() const;
+        bool isFrameNew() const;
         void debugDraw() const;
         const vector<Skeleton>& getSkeletons() const { return skeletons; }
         const Skeleton& getSkeletonByName(string name) const;
